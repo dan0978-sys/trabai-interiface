@@ -175,8 +175,32 @@ $('hc').innerHTML=HS.map(([t,p],i)=>`<article class='card'><span class='n' aria-
 const R=(x,y,w,h,f,r=6)=>`<rect x='${x}' y='${y}' width='${w}' height='${h}' rx='${r}' fill='${f}'/>`;
 const SV=[Array.from({length:28},(_,i)=>R(20+i%7*54,20+(i/7|0)*42,48,36,[3,9,10,17,22].includes(i)?'var(--accent)':'var(--line)')).join(''),[80,55,30].map((w,i)=>R(20,30+i*50,360,24,'var(--line)',12)+R(20,30+i*50,3.6*w,24,'var(--c-pessoal)',12)).join(''),`<circle cx='200' cy='100' r='70' fill='var(--accent)'/><path d='M200 55a30 30 0 0 1 30 30v25l10 15h-80l10-15V85a30 30 0 0 1 30-30z' fill='var(--accent-ink)'/><circle cx='200' cy='150' r='8' fill='var(--accent-ink)'/>`,`<rect width='200' height='200' fill='#0F161D'/><rect x='200' width='200' height='200' fill='#EEF2F5'/><text x='100' y='118' text-anchor='middle' font-size='60' fill='#E8EEF3'>Aa</text><text x='300' y='118' text-anchor='middle' font-size='60' fill='#16222E'>Aa</text>`];
 const CT=['Calendário mensal em formato de planilha','Metas com barras de progresso','Alarmes com soneca','Modo claro e escuro com bom contraste'];
-function carRender(){$('car').innerHTML=`<figure style='margin:0' aria-live='${cp?'polite':'off'}'><svg viewBox='0 0 400 200' role='img' aria-label='Ilustração: ${CT[ci]}'>${SV[ci]}</svg><figcaption>${CT[ci]}</figcaption></figure><div class='cc'><button data-k='-1' aria-label='Slide anterior'>‹</button><button data-k='1' aria-label='Próximo slide'>›</button><button data-k='p'>${cp?'Reproduzir':'Pausar'}</button><span class='dots'>${CT.map((_,i)=>`<button data-k='${i}' aria-label='Ir para o slide ${i+1}' aria-current='${i===ci}'></button>`).join('')}</span></div>`}
-function carStart(){clearInterval(ctm);if(!S.rm&&!cp)ctm=setInterval(()=>{ci=(ci+1)%4;carRender()},6000)}
+function carRender(){
+  const paused=cp||!!S.rm;
+  $('car').classList.toggle('paused',paused);
+  $('car').innerHTML=
+    `<figure style='margin:0' aria-live='${cp?'polite':'off'}'>`+
+      `<svg viewBox='0 0 400 200' role='img' aria-label='Ilustração: ${CT[ci]}'>${SV[ci]}</svg>`+
+      `<div class='car-bar' aria-hidden='true'><b key='${ci}'></b></div>`+
+      `<figcaption>${CT[ci]}</figcaption>`+
+    `</figure>`+
+    `<div class='cc'>`+
+      `<button data-k='-1' aria-label='Slide anterior'>‹</button>`+
+      `<button data-k='1' aria-label='Próximo slide'>›</button>`+
+      `<button data-k='p'>${cp?'Reproduzir':'Pausar'}</button>`+
+      `<span class='dots'>${CT.map((_,i)=>`<button data-k='${i}' aria-label='Ir para o slide ${i+1}' aria-current='${i===ci}'></button>`).join('')}</span>`+
+    `</div>`;
+}
+function carStart(){
+  clearInterval(ctm);
+  $('car').classList.toggle('paused',cp||!!S.rm);
+  if(!S.rm&&!cp){
+    ctm=setInterval(()=>{
+      ci=(ci+1)%4;
+      carRender();
+    },6000);
+  }
+}
 function search(){const q=$('sq').value.trim().toLowerCase(),m=s=>!q||s.toLowerCase().includes(q),sb=`class='sub' style='margin:0 0 0 auto'`;
 const L={c:items.filter(i=>m(i.t)).sort((a,b)=>a.d.localeCompare(b.d)).map(i=>`<div class='row'><span class='dot' style='background:var(--c-${i.c});margin-top:7px'></span><a href='#agenda' data-go='${i.d}'>${esc(i.t)}</a><span ${sb}>${fmt(i.d,{day:'numeric',month:'short'})}${i.h?' · '+i.h:''}</span></div>`),m:goals.filter(g=>m(g.t)).map(g=>`<div class='row'><span>${esc(g.t)}</span><span ${sb}>${{year:'Ano',month:'Mês',week:'Semana'}[g.s]} · ${g.p}%</span></div>`),p:pers.filter(p=>m(p.n)).map(p=>`<div class='row'><span>${esc(p.n)}</span><span ${sb}>${PT[p.k][0]} · ${sf(p.s)} a ${sf(p.e)}</span></div>`),r:FE.concat(HS).filter(([t,p])=>m(t+' '+p)).map(([t,p])=>`<div class='row'><b>${t}</b><span class='sub' style='margin:0'>${p}</span></div>`)};
 const N={c:'Compromissos',m:'Metas',p:'Períodos',r:'Recursos'};
@@ -197,14 +221,25 @@ const r=[fld('nm',v('nm').length>=3,'Informe seu nome (mínimo 3 letras).'),fld(
 const bad=['nm','em','as','ms'].find((_,i)=>!r[i]);if(bad){$(bad).focus();return}
 const L=LS.get('agenda.msgs',[]);L.push({n:v('nm'),e:v('em'),a:v('as'),m:v('ms'),t:Date.now()});LS.set('agenda.msgs',L);e.target.reset();$('cok').hidden=false;$('cok').textContent='Mensagem registrada neste navegador. Obrigado!'};
 const sha=async s=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(x=>x.toString(16).padStart(2,'0')).join('');
-function userUI(){$('ub').textContent=sess?'Sair ('+sess.n+')':'Entrar'}
-function loginMode(){$('ln').hidden=!reg;$('lt').textContent=reg?'Criar conta':'Entrar';$('l-b').textContent=reg?'Criar conta':'Entrar';$('l-m').textContent=reg?'Já tem conta? Entrar':'Não tem conta? Criar conta';$('l-err').textContent=''}
+function userUI(){$('ub').textContent=sess?'Sair ('+(sess.n||sess.e.split('@')[0])+')':'Entrar'}
+function loginMode(){
+  $('lt').textContent=reg?'Criar conta':'Entrar';
+  $('l-sub').textContent=reg?'Preencha seu e-mail e senha para registrar sua conta.':'Digite seu e-mail e senha para acessar sua agenda.';
+  $('l-b').textContent=reg?'Criar conta':'Entrar';
+  $('l-m').textContent=reg?'Já tem conta? Entrar':'Não tem conta? Criar conta';
+  $('l-err').textContent='';
+}
 $('l-m').onclick=()=>{reg=!reg;loginMode()};
-$('l-s').onchange=e=>{$('l-p').type=e.target.checked?'text':'password'};
-$('lf').onsubmit=async e=>{e.preventDefault();const n=$('l-n').value.trim(),em=$('l-e').value.trim().toLowerCase(),p=$('l-p').value,er=$('l-err'),U=LS.get('agenda.users',{});
-if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)||p.length<6||(reg&&n.length<2)){er.textContent='Preencha um e-mail válido, senha com 6+ caracteres'+(reg?' e seu nome.':'.');return}
-try{const h=await sha(p);if(reg){if(U[em]){er.textContent='Este e-mail já tem conta.';return}U[em]={n,h};LS.set('agenda.users',U)}else if(!U[em]||U[em].h!==h){er.textContent='E-mail ou senha incorretos.';return}
-sess={n:U[em].n,e:em};LS.set('agenda.s',sess);userUI();e.target.reset();reg=false;loginMode();location.hash='agenda'}catch(x){er.textContent='Seu navegador não permite criptografia aqui.'}};
+$('l-s').onclick=()=>{
+  const p=$('l-p'),show=p.type==='password';
+  p.type=show?'text':'password';
+  $('l-s').textContent=show?'Ocultar':'Mostrar';
+  $('l-s').setAttribute('aria-pressed',show);
+};
+$('lf').onsubmit=async e=>{e.preventDefault();const em=$('l-e').value.trim().toLowerCase(),p=$('l-p').value,er=$('l-err'),U=LS.get('agenda.users',{});
+if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)||p.length<6){er.textContent='Preencha um e-mail válido e senha com 6+ caracteres.';return}
+try{const h=await sha(p);if(reg){if(U[em]){er.textContent='Este e-mail já tem conta.';return}U[em]={n:em.split('@')[0],h};LS.set('agenda.users',U)}else if(!U[em]||U[em].h!==h){er.textContent='E-mail ou senha incorretos.';return}
+sess={n:U[em].n||em.split('@')[0],e:em};LS.set('agenda.s',sess);userUI();e.target.reset();$('l-p').type='password';$('l-s').textContent='Mostrar';$('l-s').setAttribute('aria-pressed','false');reg=false;loginMode();location.hash='agenda'}catch(x){er.textContent='Seu navegador não permite criptografia aqui.'}};
 function route(){const h=location.hash.slice(1);if(PG.includes(h))cur=h;PG.forEach(p=>$('pg-'+p).classList.toggle('on',p===cur));document.querySelectorAll('.top nav a').forEach(a=>a.getAttribute('href')==='#'+cur?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));if(cur==='agenda')render();if(cur==='pesquisar')search();if(cur==='acessibilidade')contrast();window.scrollTo(0,0)}
 addEventListener('hashchange',route);
 load();render();tick();setInterval(tick,15000);
