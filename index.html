@@ -40,7 +40,54 @@
   <main class='pg wrap' id='pg-pesquisar'><h1 class='big'>Pesquisar</h1><label for='sq' class='sub' style='display:block;margin:6px 0 10px'>Busque em compromissos, metas, períodos e recursos</label><input class='search' id='sq' type='search' placeholder='Digite para pesquisar'><div class='tabs' role='tablist' id='st' aria-label='Categorias de resultados'></div><div id='sres' role='tabpanel' aria-live='polite'></div></main>
   <main class='pg wrap' id='pg-acessibilidade'><h1 class='big'>Acessibilidade</h1><p class='sub'>Preferências salvas neste navegador.</p><section class='card' aria-label='Preferências'><label class='sw'><input type='checkbox' data-s='dark'> Modo escuro</label><div class='sw'><span>Tamanho da fonte: <b id='fsv'>100%</b></span><button class='tb' data-fs='-1' aria-label='Diminuir fonte'>A−</button><button class='tb' data-fs='0' aria-label='Fonte padrão'>A</button><button class='tb' data-fs='1' aria-label='Aumentar fonte'>A+</button></div><label class='sw'><input type='checkbox' data-s='hc'> Alto contraste</label><label class='sw'><input type='checkbox' data-s='lf'> Fonte de alta legibilidade</label><label class='sw'><input type='checkbox' data-s='ls'> Espaçamento ampliado</label><label class='sw'><input type='checkbox' data-s='rm'> Reduzir animações</label><button class='tb' id='a-rs' style='margin-top:10px'>Restaurar padrão</button></section><h2>Análise de contraste (WCAG 2.2)</h2><p class='sub'>Razões calculadas ao vivo para o tema atual. Texto: mínimo 4,5:1 (AA) e 7:1 (AAA). Componentes e ícones: mínimo 3:1.</p><div class='tw card'><table id='ct'></table></div><h2>Paleta e psicologia das cores</h2><div class='cards' id='pal'></div></main>
   <main class='pg wrap' id='pg-contato'><h1 class='big'>Contato</h1><p class='sub'>Envie dúvidas ou sugestões.</p><form class='fm' id='cf' novalidate><label>Nome<input id='nm' autocomplete='name'><span class='err' id='e-nm'></span></label><label>E-mail<input id='em' type='email' autocomplete='email'><span class='err' id='e-em'></span></label><label>Assunto<select id='as'><option value=''>Selecione</option><option>Dúvida</option><option>Sugestão</option><option>Problema</option></select><span class='err' id='e-as'></span></label><label>Mensagem<textarea id='ms' rows='5'></textarea><span class='err' id='e-ms'></span></label><button class='btn' type='submit'>Enviar mensagem</button></form><p id='cok' class='ok' role='status' hidden></p></main>
-  <main class='pg wrap' id='pg-entrar'><h1 class='big' id='lt'>Entrar</h1><form class='fm' id='lf' novalidate style='margin-top:12px'><label id='ln' hidden>Nome<input id='l-n' autocomplete='name'></label><label>E-mail<input id='l-e' type='email' autocomplete='email'></label><label>Senha<input id='l-p' type='password' autocomplete='current-password'></label><label class='sw' style='border:0'><input type='checkbox' id='l-s'> Mostrar senha</label><span class='err' id='l-err' role='alert'></span><button class='btn' type='submit' id='l-b'>Entrar</button><button type='button' class='tb' id='l-m'>Não tem conta? Criar conta</button></form><p class='sub'>Demonstração: a conta fica salva só neste navegador (senha com hash SHA-256), sem servidor.</p></main>
+
+  <!-- Tela de Login alinhada ao tema da página inicial -->
+  <main class="pg wrap" id="pg-entrar">
+    <div class="auth-layout">
+      <section class="auth-intro">
+        <span class="auth-badge">Agenda+</span>
+        <h1>Sua rotina em um só lugar.</h1>
+        <p class="sub">Entre para acessar seus compromissos, períodos marcados, metas e lembretes com o tema e as preferências salvas neste navegador.</p>
+        <ul class="auth-perks">
+          <li><span class="dot" style="background:var(--c-trabalho)"></span>Calendário mensal tipo planilha com atalhos</li>
+          <li><span class="dot" style="background:var(--c-pessoal)"></span>Metas anuais, mensais e semanais</li>
+          <li><span class="dot" style="background:var(--c-estudos)"></span>Modo claro, escuro e alto contraste WCAG 2.2</li>
+        </ul>
+      </section>
+
+      <section class="card auth-card" aria-labelledby="lt">
+        <div class="auth-head">
+          <h2 id="lt">Entrar</h2>
+          <p class="sub" id="l-sub">Digite seu e-mail e senha para acessar sua agenda.</p>
+        </div>
+
+        <form class="fm" id="lf" novalidate>
+          <label>E-mail
+            <input id="l-e" type="email" placeholder="voce@exemplo.com" autocomplete="email">
+          </label>
+
+          <label>Senha
+            <div class="pw-wrap">
+              <input id="l-p" type="password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
+              <button type="button" class="tb pw-toggle" id="l-s" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button>
+            </div>
+          </label>
+
+          <span class="err" id="l-err" role="alert"></span>
+
+          <div class="auth-actions">
+            <button class="btn auth-submit" type="submit" id="l-b">Entrar</button>
+            <button type="button" class="tb auth-switch" id="l-m">Não tem conta? Criar conta</button>
+          </div>
+        </form>
+
+        <p class="auth-note">
+          Demonstração local: a conta fica salva apenas neste navegador (senha protegida com hash SHA-256), sem envio a servidores.
+        </p>
+      </section>
+    </div>
+  </main>
+
   <footer class='foot'><p><b>Agenda+</b> · Projeto Final de Desenvolvimento de Interfaces</p><p>Projetado para WCAG 2.2 AA · <a href='#acessibilidade'>Acessibilidade</a> · <a href='#contato'>Contato</a></p></footer>
   <script src="script.js"></script>
 </body>
