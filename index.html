@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Agenda</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class='skip' href='#conteudo'>Pular para o conteúdo</a>
+  <header class='top'><div><a class='brand' href='#inicio'>Agenda+</a><nav aria-label='Principal'><a href='#inicio'>Início</a><a href='#agenda'>Agenda</a><a href='#pesquisar'>Pesquisar</a><a href='#acessibilidade'>Acessibilidade</a><a href='#contato'>Contato</a></nav><button id='tt' aria-label='Alternar modo claro e escuro'>◐ Tema</button><button id='ub'>Entrar</button></div></header><div id='conteudo' tabindex='-1'></div>
+  <div class="app pg" id="pg-agenda">
+    <aside class="side">
+      <section hidden aria-label="Calendário">
+        <h2 id="mt"></h2>
+        <div class="grid" id="cal"></div>
+      </section>
+      <section class='panel' aria-label='Categorias'><div class='cats' id='cats'></div></section>
+      <section class='panel' aria-label='Períodos'><h2 style='font-size:17px;margin-bottom:4px'>Períodos</h2><div class='sub' style='margin:0 0 10px;font-size:13px'>Marque uma ou mais semanas, como provas, trabalho ou viagem.</div><div class='pf'><input id='pn' placeholder='Ex.: Semana de provas' aria-label='Nome do período'><select id='pk' aria-label='Tipo'></select><label>Início<input type='date' id='ps'></label><label>Fim<input type='date' id='pe'></label><button class='go' id='pa'>Criar período</button></div><div id='pm' role='status'></div><div id='pl'></div></section>
+    </aside>
+    <main>
+      <div class="head">
+        <div><h1 class="big" id="title"></h1><div class="sub" id="sub"></div></div>
+        <div class='nav'><button class='ib' id='prev' aria-label='Anterior'>‹</button><button class='tb' id='today'>Hoje</button><button class='ib' id='next' aria-label='Próximo'>›</button></div><div class="seg" role="group" aria-label="Visualização"><button id="vd" aria-pressed="true">Dia</button><button id="vw" aria-pressed="false">Semana</button><button id='vm' aria-pressed='false'>Mês</button><button id='vg' aria-pressed='false'>Metas</button></div>
+      </div>
+      <div class="add">
+        <input class="t" id="nt" placeholder="Novo compromisso ou tarefa" aria-label="Título">
+        <input type="date" id="nd" aria-label="Data">
+        <input type="time" id="nh" aria-label="Hora">
+        <select id='nc' aria-label='Categoria'></select>
+        <select id='na' aria-label='Alarme' title='Sem horário, o alarme toca às 09:00'><option value='-1'>Sem alarme</option><option value='0'>Na hora</option><option value='5'>5 min antes</option><option value='15'>15 min antes</option><option value='60'>1 h antes</option><option value='1440'>1 dia antes</option></select>
+        <button class="go" id="go">Adicionar</button>
+      </div>
+      <input class="search" id="q" type="search" placeholder="Buscar em todos os compromissos" aria-label="Buscar">
+      <div id='list'></div><div id='rings' aria-live='assertive'></div>
+    </main>
+  </div>
+  <main class='pg wrap on' id='pg-inicio'><section class='hero'><div><h1>Sua agenda, mais organizada.</h1><p class='sub' style='margin:0 0 16px;font-size:17px'>Calendário mensal tipo planilha, períodos, metas e alarmes, com modo escuro e recursos de acessibilidade.</p><a class='btn' href='#agenda'>Abrir a agenda</a></div><div class='car' id='car' role='region' aria-roledescription='carousel' aria-label='Destaques'></div></section><h2>Recursos</h2><div class='cards' id='fc'></div><h2>Como usar</h2><div class='cards' id='hc'></div></main>
+  <main class='pg wrap' id='pg-pesquisar'><h1 class='big'>Pesquisar</h1><label for='sq' class='sub' style='display:block;margin:6px 0 10px'>Busque em compromissos, metas, períodos e recursos</label><input class='search' id='sq' type='search' placeholder='Digite para pesquisar'><div class='tabs' role='tablist' id='st' aria-label='Categorias de resultados'></div><div id='sres' role='tabpanel' aria-live='polite'></div></main>
+  <main class='pg wrap' id='pg-acessibilidade'><h1 class='big'>Acessibilidade</h1><p class='sub'>Preferências salvas neste navegador.</p><section class='card' aria-label='Preferências'><label class='sw'><input type='checkbox' data-s='dark'> Modo escuro</label><div class='sw'><span>Tamanho da fonte: <b id='fsv'>100%</b></span><button class='tb' data-fs='-1' aria-label='Diminuir fonte'>A−</button><button class='tb' data-fs='0' aria-label='Fonte padrão'>A</button><button class='tb' data-fs='1' aria-label='Aumentar fonte'>A+</button></div><label class='sw'><input type='checkbox' data-s='hc'> Alto contraste</label><label class='sw'><input type='checkbox' data-s='lf'> Fonte de alta legibilidade</label><label class='sw'><input type='checkbox' data-s='ls'> Espaçamento ampliado</label><label class='sw'><input type='checkbox' data-s='rm'> Reduzir animações</label><button class='tb' id='a-rs' style='margin-top:10px'>Restaurar padrão</button></section><h2>Análise de contraste (WCAG 2.2)</h2><p class='sub'>Razões calculadas ao vivo para o tema atual. Texto: mínimo 4,5:1 (AA) e 7:1 (AAA). Componentes e ícones: mínimo 3:1.</p><div class='tw card'><table id='ct'></table></div><h2>Paleta e psicologia das cores</h2><div class='cards' id='pal'></div></main>
+  <main class='pg wrap' id='pg-contato'><h1 class='big'>Contato</h1><p class='sub'>Envie dúvidas ou sugestões.</p><form class='fm' id='cf' novalidate><label>Nome<input id='nm' autocomplete='name'><span class='err' id='e-nm'></span></label><label>E-mail<input id='em' type='email' autocomplete='email'><span class='err' id='e-em'></span></label><label>Assunto<select id='as'><option value=''>Selecione</option><option>Dúvida</option><option>Sugestão</option><option>Problema</option></select><span class='err' id='e-as'></span></label><label>Mensagem<textarea id='ms' rows='5'></textarea><span class='err' id='e-ms'></span></label><button class='btn' type='submit'>Enviar mensagem</button></form><p id='cok' class='ok' role='status' hidden></p></main>
+  <main class='pg wrap' id='pg-entrar'><h1 class='big' id='lt'>Entrar</h1><form class='fm' id='lf' novalidate style='margin-top:12px'><label id='ln' hidden>Nome<input id='l-n' autocomplete='name'></label><label>E-mail<input id='l-e' type='email' autocomplete='email'></label><label>Senha<input id='l-p' type='password' autocomplete='current-password'></label><label class='sw' style='border:0'><input type='checkbox' id='l-s'> Mostrar senha</label><span class='err' id='l-err' role='alert'></span><button class='btn' type='submit' id='l-b'>Entrar</button><button type='button' class='tb' id='l-m'>Não tem conta? Criar conta</button></form><p class='sub'>Demonstração: a conta fica salva só neste navegador (senha com hash SHA-256), sem servidor.</p></main>
+  <footer class='foot'><p><b>Agenda+</b> · Projeto Final de Desenvolvimento de Interfaces</p><p>Projetado para WCAG 2.2 AA · <a href='#acessibilidade'>Acessibilidade</a> · <a href='#contato'>Contato</a></p></footer>
+  <script src="script.js"></script>
+</body>
+</html>
